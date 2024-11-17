@@ -5,7 +5,9 @@ interface CroppedImageProps {
 }
 
 const Image = styled.img`
+  max-width: 100%;
   object-fit: cover;
+  border-radius: 100%;
 `;
 
 export default function CroppedImage({ src }: CroppedImageProps) {
