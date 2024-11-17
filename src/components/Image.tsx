@@ -1,27 +1,39 @@
-import { useState } from 'react';
-import Cropper, { Area } from 'react-easy-crop';
+import Cropper, { Area, Point } from 'react-easy-crop';
 
 interface ImageProps {
   src: string;
+  crop: { x: number; y: number };
+  zoom: number;
+  onChangeCrop: (location: Point) => void;
+  onChangeZoom: (zoom: number) => void;
+  onCompleteCrop: (croppedArea: Area, croppedAreaPixels: Area) => void;
 }
 
-export default function Image({ src }: ImageProps) {
-  const [crop, setCrop] = useState({ x: 0, y: 0 });
-  const [zoom, setZoom] = useState(1);
-
-  const handleCropComplete = (croppedArea: Area, croppedAreaPixels: Area) => {
-    console.log(croppedArea, croppedAreaPixels);
-  };
-
+export default function Image({
+  src,
+  zoom,
+  crop,
+  onChangeCrop,
+  onChangeZoom,
+  onCompleteCrop,
+}: ImageProps) {
   return (
     <Cropper
       image={src}
       crop={crop}
       zoom={zoom}
       aspect={4 / 3}
-      onCropChange={setCrop}
-      onCropComplete={handleCropComplete}
-      onZoomChange={setZoom}
+      objectFit='cover'
+      style={{
+        containerStyle: {
+          position: 'relative',
+          width: 500,
+          height: 500,
+        },
+      }}
+      onCropChange={onChangeCrop}
+      onCropComplete={onCompleteCrop}
+      onZoomChange={onChangeZoom}
     />
   );
 }
